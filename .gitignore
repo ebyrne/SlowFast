@@ -1,0 +1,7 @@
+**/__pycache__/
+build/
+checkpoints/
+runs-charades/
+slowfast.egg-info/
+json_stats.log
+stdout.log

@@ -1,5 +1,5 @@
 TRAIN:
-  ENABLE: True
+  ENABLE: False
   DATASET: kinetics
   BATCH_SIZE: 64
   EVAL_PERIOD: 10
@@ -12,6 +12,10 @@ DATA:
   TRAIN_CROP_SIZE: 224
   TEST_CROP_SIZE: 256
   INPUT_CHANNEL_NUM: [3, 3]
+  # PATH_LABEL_SEPARATOR: ','
+  PATH_TO_DATA_DIR: /mnt/nas/datasets/kinetics/
+  PATH_PREFIX: /mnt/nas/datasets/kinetics/val/
+  DECODING_BACKEND: 'pyav'
 SLOWFAST:
   ALPHA: 4
   BETA_INV: 8
@@ -53,6 +57,7 @@ TEST:
   ENABLE: True
   DATASET: kinetics
   BATCH_SIZE: 64
+  CHECKPOINT_FILE_PATH: /home/ebyrne/data/k400/SLOWFAST_8x8_R50.pyth
 DATA_LOADER:
   NUM_WORKERS: 8
   PIN_MEMORY: True
@@ -60,3 +65,7 @@ NUM_GPUS: 8
 NUM_SHARDS: 1
 RNG_SEED: 0
 OUTPUT_DIR: .
+TENSORBOARD:
+  ENABLE: False
+TASK:
+  k400-chkpt

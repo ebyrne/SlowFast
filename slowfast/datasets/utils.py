@@ -251,8 +251,9 @@ def load_image_lists(frame_list_file, prefix="", return_list=False):
     """
     image_paths = defaultdict(list)
     labels = defaultdict(list)
+    print(f"load_image_lists: {frame_list_file}", flush=True)
     with pathmgr.open(frame_list_file, "r") as f:
-        assert f.readline().startswith("original_vido_id")
+        assert f.readline().startswith("original_video_id")
         for line in f:
             row = line.split()
             # original_vido_id video_id frame_id path labels

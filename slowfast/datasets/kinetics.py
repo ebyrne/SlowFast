@@ -90,7 +90,7 @@ class Kinetics(torch.utils.data.Dataset):
                 cfg.TEST.NUM_ENSEMBLE_VIEWS * cfg.TEST.NUM_SPATIAL_CROPS
             )
 
-        logger.info("Constructing Kinetics {}...".format(mode))
+        logger.info("Constructing Kinetics {} _num_clips: {}...".format(mode, self._num_clips))
         self._construct_loader()
         self.aug = False
         self.rand_erase = False
@@ -122,6 +122,7 @@ class Kinetics(torch.utils.data.Dataset):
         self.epoch = 0.0
         self.skip_rows = self.cfg.DATA.SKIP_ROWS
 
+        print(f"Loading kinetics: {path_to_file}")
         with pathmgr.open(path_to_file, "r") as f:
             if self.use_chunk_loading:
                 rows = self._get_chunk(f, self.cfg.DATA.LOADER_CHUNK_SIZE)
@@ -158,6 +159,12 @@ class Kinetics(torch.utils.data.Dataset):
         logger.info(
             "Constructing kinetics dataloader (size: {} skip_rows {}) from {} ".format(
                 len(self._path_to_videos), self.skip_rows, path_to_file
+            )
+        )
+        logger.info(
+            "First: {} | {}".format(
+                self._labels[0],
+                self._path_to_videos[0]
             )
         )
 
@@ -505,7 +512,8 @@ class Kinetics(torch.utils.data.Dataset):
             return frames, label, index, time_idx, {}
         else:
             logger.warning(
-                "Failed to fetch video after {} retries.".format(
+                "Failed to fetch video ({}) after {} retries.".format(
+                    self._path_to_videos[index],
                     self._num_retries
                 )
             )

@@ -538,17 +538,21 @@ def load_checkpoint(
             # Log weights that are not loaded with the pre-trained weights.
             if not_load_layers:
                 for k in not_load_layers:
-                    logger.info("Network weights {} not loaded.".format(k))
+                    logger.info("Network weights {} not loaded. Eligible: {}".format(k, len(pre_train_dict_match)))
             if not_used_layers:
                 for k in not_used_layers:
-                    logger.info("Network weights {} not used.".format(k))
+                    logger.info("Network weights {} not used. Eligible: {}".format(k, len(pre_train_dict_match)))
+                    if k.startswith("model."):
+                        nonmodel = k[6:]
+                        if nonmodel in pre_train_dict_match.keys():
+                            logger.error(f"model. mismatch - use correct checkpoint: {k}")
             # Load pre-trained weights.
             missing_keys, unexpected_keys = ms.load_state_dict(
                 pre_train_dict_match, strict=False
             )
 
-            print("missing keys: {}".format(missing_keys))
-            print("unexpected keys: {}".format(unexpected_keys))
+            logger.info("missing keys: {}".format(missing_keys))
+            logger.info("unexpected keys: {}".format(unexpected_keys))
             epoch = -1
 
             # Load the optimizer state (commonly not done when fine-tuning)

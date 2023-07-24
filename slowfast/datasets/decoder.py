@@ -586,6 +586,7 @@ def decode(
             )
     except Exception as e:
         print("Failed to decode by {} with exception: {}".format(backend, e))
+        logging.exception("Failed to decode by {} with exception: {}".format(backend, e), exc_info=e)
         return None, None, None
 
     # Return None if the frames was not decoded successfully.
